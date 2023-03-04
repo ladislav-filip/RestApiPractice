@@ -1,7 +1,9 @@
-﻿using System.Net.Mime;
+﻿using System.Net;
+using System.Net.Mime;
 using CarSeller.Contracts;
+using CarSeller.Examples;
 using Microsoft.AspNetCore.Mvc;
-
+using Swashbuckle.AspNetCore.Filters;
 
 [Route("api/[controller]")]
 [ApiController]
@@ -16,9 +18,10 @@ public class CarsController : ControllerBase
     /// <returns></returns>
     [HttpGet]
     [ProducesResponseType(typeof(CarItem[]), StatusCodes.Status200OK)]
+    [SwaggerResponseExample(StatusCodes.Status200OK, typeof(CarItemExample))]
     public async Task<ActionResult> Get(int? year, string? model)
     {
-        return Ok();
+        return Ok(new CarItemExample().GetExamples());
     }
 
     [HttpGet, Route("{id}")]
