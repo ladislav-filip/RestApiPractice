@@ -1,0 +1,131 @@
+openapi: 3.0.0
+x-stoplight:
+  id: f5a41969u33ti
+info:
+  title: cars
+  version: '1.0'
+  contact:
+    name: L. Filip
+    url: 'http://fullsys.cz'
+    email: ladislav.filip@fullsys.cz
+  description: 'Testovaci API pro skoleni  '
+servers:
+  - url: 'http://localhost:5167'
+paths:
+  /api/cars:
+    get:
+      summary: Your GET endpoint
+      tags:
+        - cars
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CarItem'
+      operationId: GetCars
+      description: Nacteni seznamu vozidel
+      parameters:
+        - schema:
+            type: number
+          in: query
+          name: year
+          description: Rok vyroby
+        - schema:
+            $ref: '#/components/schemas/CarModels'
+          in: query
+          name: model
+          description: Model vozu
+    post:
+      summary: ''
+      operationId: post-api-cars
+      responses:
+        '201':
+          description: Created
+        '400':
+          $ref: '#/components/responses/ProblemDetail400'
+      tags:
+        - cars
+      description: Nove vozidlo
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CarCreate'
+          application/xml:
+            schema:
+              type: object
+              properties: {}
+    parameters: []
+components:
+  schemas:
+    CarItem:
+      title: CarItem
+      x-stoplight:
+        id: bmyn9ja4q3h1d
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        model:
+          $ref: '#/components/schemas/CarModels'
+        year:
+          type: integer
+        price:
+          type: number
+    CarModels:
+      title: CarModels
+      x-stoplight:
+        id: njxxeyw0lqht6
+      type: string
+      enum:
+        - dacia
+        - skoda
+        - ford
+        - jawa
+    CarCreate:
+      title: CarCreate
+      type: object
+      properties:
+        name:
+          type: string
+          maxLength: 100
+        model:
+          $ref: '#/components/schemas/CarModels'
+        year:
+          type: integer
+          format: int32
+          minimum: 2000
+          maximum: 2022
+      required:
+        - name
+        - model
+        - year
+    ProblemDetail400:
+      title: ProblemDetail400
+      x-stoplight:
+        id: ece51c4ec2e2f
+      type: object
+      properties:
+        title:
+          type: string
+        detail:
+          type: string
+        errors:
+          type: array
+          items:
+            type: object
+  responses:
+    ProblemDetail400:
+      description: Example response
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetail400'
+tags:
+  - name: cars

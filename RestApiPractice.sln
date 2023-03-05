@@ -11,6 +11,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Swagger", "Swagger", "{69FB
 		SwaggerVsCode\swagger.json = SwaggerVsCode\swagger.json
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "StoplightStudio", "StoplightStudio", "{A7AD0F26-EE8A-4136-88E9-97DAA179D346}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Reference", "Reference", "{8A1EF3D5-AB64-46F9-AC01-5697166398E4}"
+	ProjectSection(SolutionItems) = preProject
+		StoplightStudio\reference\cars.yaml = StoplightStudio\reference\cars.yaml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,5 +34,8 @@ Global
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B3FD69EB-062E-47A4-937F-F1359C96915F}
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{8A1EF3D5-AB64-46F9-AC01-5697166398E4} = {A7AD0F26-EE8A-4136-88E9-97DAA179D346}
 	EndGlobalSection
 EndGlobal
