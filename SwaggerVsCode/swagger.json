@@ -1,0 +1,472 @@
+﻿
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Cars Seller",
+    "description": "API pro ukázku dokumentace pomocí Swagger/OpanApi pro Fullcom školení",
+    "contact": {
+      "name": "L. Filip",
+      "url": "https://www.fullsys.cz",
+      "email": "ladislav.filip@fullsys.cz"
+    },
+    "license": {
+      "name": "MIT",
+      "url": "https://www.mit.edu/~amini/LICENSE.md"
+    },
+    "version": "v1"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:5167",
+      "description": "Lokalni vyvoj"
+    }
+  ],
+  "paths": {
+    "/api/Cars": {
+      "get": {
+        "tags": [
+          "Cars"
+        ],
+        "summary": "Získání seznamu dostupných vozidel",
+        "description": "Zde může být složtější popisek i se syntaxí **Markdown**:\r\n* není implementováno stránkování\r\n* chybí zde i možnost řazení",
+        "operationId": "Cars_Get",
+        "parameters": [
+          {
+            "name": "year",
+            "in": "query",
+            "description": "rok výroby vozidla",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "example": 2021
+          },
+          {
+            "name": "model",
+            "in": "query",
+            "description": "model vozidla",
+            "schema": {
+              "type": "string"
+            },
+            "example": "dacia"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CarItem"
+                  }
+                },
+                "example": [{"id":1,"name":"Nove auto","model":"Dacia","year":2018,"price":100000,"desc":"Dlouhy popisek","createdBy":{"fullName":"Jan Novak","daeCreated":"2022-10-11T00:00:00"}},{"id":2,"name":"Nakladni auto","model":"Tatra","year":2018,"price":200000,"desc":"Lorem ipsum","createdBy":{"fullName":"Jan Novak","daeCreated":"2022-10-11T00:00:00"}},{"id":3,"name":"Motorka","model":"Jawa","year":2018,"price":100000,"desc":"Kratky popisek","createdBy":{"fullName":"Jan Novak","daeCreated":"2022-10-11T00:00:00"}}]
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Cars"
+        ],
+        "summary": "Vložení nového vozidla",
+        "operationId": "Cars_Create",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateCar"
+              },
+              "example": {"name":"Renaul 302 rezavy","model":"Reanault","year":2021,"price":250000,"desc":"Poznamka k vozidlu a neco dalsiho"}
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateCar"
+              },
+              "example": {"name":"Renaul 302 rezavy","model":"Reanault","year":2021,"price":250000,"desc":"Poznamka k vozidlu a neco dalsiho"}
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateCar"
+              },
+              "example": {"name":"Renaul 302 rezavy","model":"Reanault","year":2021,"price":250000,"desc":"Poznamka k vozidlu a neco dalsiho"}
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                },
+                "example": {"type":"Bad Request","title":"Validační chyba","status":400,"detail":"Chyba při validaci","instance":"/api/example/path","errors":{"name":"Pole je povinné","year":"Rok musí být v rozmezí 2000 až 2023"}}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Cars/{id}": {
+      "get": {
+        "tags": [
+          "Cars"
+        ],
+        "summary": "Detailní informace o vozidle",
+        "operationId": "Cars_GetDetail",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 10
+            }
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CarItem"
+                },
+                "example": {"type":"NotFound","title":"Neexistující záznam","status":404,"detail":"Tento záznam nebyl v databázi nalezen","instance":"/api/example/path"}
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Cars"
+        ],
+        "summary": "Oprava údajů o vozidle",
+        "operationId": "Cars_Update",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateCar"
+              },
+              "example": {"name":"Ford escort jako novy","model":"Ford","year":2021,"price":250000,"desc":"Poznamka ke změně"}
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateCar"
+              },
+              "example": {"name":"Ford escort jako novy","model":"Ford","year":2021,"price":250000,"desc":"Poznamka ke změně"}
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateCar"
+              },
+              "example": {"name":"Ford escort jako novy","model":"Ford","year":2021,"price":250000,"desc":"Poznamka ke změně"}
+            }
+          }
+        },
+        "responses": {
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                },
+                "example": {"type":"Bad Request","title":"Validační chyba","status":400,"detail":"Chyba při validaci","instance":"/api/example/path","errors":{"name":"Pole je povinné","year":"Rok musí být v rozmezí 2000 až 2023"}}
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                },
+                "example": {"type":"NotFound","title":"Neexistující záznam","status":404,"detail":"Tento záznam nebyl v databázi nalezen","instance":"/api/example/path"}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Cars/sold": {
+      "post": {
+        "tags": [
+          "Cars"
+        ],
+        "summary": "Vloží vozidlo do prodaných vozů",
+        "operationId": "Cars_CreateSold",
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateSoldCar"
+              },
+              "example": {"id":2,"price":225000,"desc":"Auto prodano v popode"}
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateSoldCar"
+              },
+              "example": {"id":2,"price":225000,"desc":"Auto prodano v popode"}
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateSoldCar"
+              },
+              "example": {"id":2,"price":225000,"desc":"Auto prodano v popode"}
+            }
+          }
+        },
+        "responses": {
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                },
+                "example": {"type":"NotFound","title":"Neexistující záznam","status":404,"detail":"Tento záznam nebyl v databázi nalezen","instance":"/api/example/path"}
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                },
+                "example": {"type":"Bad Request","title":"Validační chyba","status":400,"detail":"Chyba při validaci","instance":"/api/example/path","errors":{"name":"Pole je povinné","year":"Rok musí být v rozmezí 2000 až 2023"}}
+              }
+            }
+          },
+          "422": {
+            "description": "Client Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                },
+                "example": {"type":"UnprocessableEntity","title":"Neočekávaná chyba","status":422,"detail":"Vozidlo nelze prodat, protoze to neni spravne","instance":"/api/example/path"}
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "CarItem": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string",
+            "description": "Název prodávaného vozidla\r\n<example>Škoda Octavia</example>",
+            "nullable": true
+          },
+          "model": {
+            "type": "string",
+            "description": "Model vozidla\r\n<example>dacia</example>",
+            "nullable": true
+          },
+          "year": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "price": {
+            "type": "number",
+            "format": "double"
+          },
+          "desc": {
+            "type": "string",
+            "nullable": true
+          },
+          "createdBy": {
+            "$ref": "#/components/schemas/CreatedBy"
+          }
+        },
+        "additionalProperties": false
+      },
+      "CreateCar": {
+        "required": [
+          "model",
+          "name",
+          "price",
+          "year"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string"
+          },
+          "model": {
+            "maxLength": 50,
+            "minLength": 0,
+            "type": "string"
+          },
+          "year": {
+            "maximum": 2023,
+            "minimum": 2000,
+            "type": "integer",
+            "format": "int32"
+          },
+          "price": {
+            "maximum": 10000000,
+            "minimum": 0,
+            "type": "number",
+            "format": "double"
+          },
+          "desc": {
+            "maxLength": 1000,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CreatedBy": {
+        "type": "object",
+        "properties": {
+          "fullName": {
+            "type": "string",
+            "nullable": true
+          },
+          "daeCreated": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false
+      },
+      "CreateSoldCar": {
+        "required": [
+          "id",
+          "price"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "price": {
+            "maximum": 10000000,
+            "minimum": 0,
+            "type": "number",
+            "format": "double"
+          },
+          "desc": {
+            "maxLength": 1000,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ProblemDetails": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "nullable": true
+          },
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "detail": {
+            "type": "string",
+            "nullable": true
+          },
+          "instance": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": { }
+      },
+      "UpdateCar": {
+        "required": [
+          "model",
+          "name",
+          "price",
+          "year"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string"
+          },
+          "model": {
+            "maxLength": 50,
+            "minLength": 0,
+            "type": "string"
+          },
+          "year": {
+            "maximum": 2023,
+            "minimum": 2000,
+            "type": "integer",
+            "format": "int32"
+          },
+          "price": {
+            "maximum": 10000000,
+            "minimum": 0,
+            "type": "number",
+            "format": "double"
+          },
+          "desc": {
+            "maxLength": 1000,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  }
+}

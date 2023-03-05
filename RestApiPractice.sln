@@ -8,6 +8,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Swagger", "Swagger", "{69FB5485-EA77-40AD-BCFA-1C3FDF18A472}"
 	ProjectSection(SolutionItems) = preProject
 		SwaggerVsCode\swagger.yaml = SwaggerVsCode\swagger.yaml
+		SwaggerVsCode\swagger.json = SwaggerVsCode\swagger.json
 	EndProjectSection
 EndProject
 Global
