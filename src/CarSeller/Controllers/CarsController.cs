@@ -1,9 +1,4 @@
-﻿using System.Net;
-using System.Net.Mime;
-using CarSeller.Contracts;
-using CarSeller.Examples;
-using Microsoft.AspNetCore.Mvc;
-using Swashbuckle.AspNetCore.Filters;
+﻿using Swashbuckle.AspNetCore.Filters;
 
 [Route("api/[controller]")]
 [ApiController]

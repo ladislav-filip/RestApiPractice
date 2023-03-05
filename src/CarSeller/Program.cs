@@ -1,5 +1,4 @@
 using System.Reflection;
-using CarSeller.Examples;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
 

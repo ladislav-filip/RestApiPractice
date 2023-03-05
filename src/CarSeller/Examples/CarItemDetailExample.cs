@@ -1,5 +1,4 @@
-﻿using CarSeller.Contracts;
-using Swashbuckle.AspNetCore.Filters;
+﻿using Swashbuckle.AspNetCore.Filters;
 
 namespace CarSeller.Examples;
 
