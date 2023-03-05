@@ -1,0 +1,106 @@
+openapi: '3.0.2'
+info:
+  title: Cars Seller
+  description: API pro ukazku tvorby dokumentace ve Fullcom  
+  version: '1.0'
+  contact:
+    name: Ladislav Filip
+    email: filip@mail.cz
+servers:
+  - url: http://localhost:5167
+  - url: https://fyllsys.cz/api
+paths:
+  /api/cars:
+    get:
+      tags:
+        - "cars"
+      summary: Nacteni vsech vozidel
+      description: |
+        Detailnejsi popis **s pouzitim Markdow**
+        * tady odrazka
+        * a zde dalsi odrazka     
+      operationId: GetCars
+      parameters:
+        - name: year
+          in: query
+          schema:
+            type: integer
+            default: 2012
+        - name: model
+          in: query
+          schema:
+            type: string
+            default: dacia
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CarItem'
+    post:
+      tags:
+        - "cars"
+      summary: Zalozeni noveho vozidla
+      operationId: CreateCar
+      requestBody: 
+        description: Model pro zalozeni vozidla
+        content:
+          application/json:
+            schema: 
+              $ref: '#/components/schemas/CarCreate'
+      responses: 
+        201:
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CarItem'
+        400:
+          description: BadRequest
+          content:
+            application/json:
+              schema: 
+                $ref: '#/components/schemas/ProblemDetail'
+components:
+  schemas:
+    CarItem:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        name:
+          type: string
+          description: Nazev vozdlla pro zobrazeni v titulku
+        model:
+          type: string
+    CarCreate:
+      type: object
+      properties: 
+        name:
+          type: string
+          required: true
+          maxLength: 100
+        model:
+          type: string
+          enum:
+            - dacia
+            - skoda
+            - ford
+        year:
+          type: integer
+          format: int32
+          maximum: 2022
+          minimum: 2000
+    ProblemDetail:
+      type: object
+      properties: 
+        title:
+          type: string
+        detail:
+          type: string
+        status:
+          type: integer
