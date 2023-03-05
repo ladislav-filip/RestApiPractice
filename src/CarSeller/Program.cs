@@ -29,6 +29,16 @@ builder.Services.AddSwaggerGen(opt =>
 });
 builder.Services.AddSwaggerExamplesFromAssemblyOf<CarItemExample>(); // plná cesta je zde úmyslně  - pro exaktní specifikace kde se examples mají hledat
 
+builder.Services.AddCors(opt =>
+{
+    opt.AddPolicy(name: "policy", policy =>
+    {
+        policy.AllowAnyHeader();
+        policy.AllowAnyMethod();
+        policy.AllowAnyOrigin();
+    });
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -38,6 +48,8 @@ if (app.Environment.IsDevelopment()) {
 }
 
 app.UseAuthorization();
+
+app.UseCors("policy");
 
 app.MapControllers();
 
