@@ -28,9 +28,14 @@ paths:
             default: 2012
         - name: model
           in: query
+          required: false
           schema:
             type: string
-            default: dacia
+            example: dacia
+            enum:
+              - dacia
+              - skoda
+              - ford
       responses:
         '200':
           description: OK
@@ -40,6 +45,13 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/CarItem'
+              example: 
+                - id: 1
+                  name: "Auto"
+                  model: dacia
+                - id: 2
+                  name: "Nakladni auto"
+                  model: skoda
     post:
       tags:
         - "cars"
