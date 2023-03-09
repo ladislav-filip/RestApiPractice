@@ -76,7 +76,15 @@ paths:
             application/json:
               schema: 
                 $ref: '#/components/schemas/ProblemDetail'
+security:
+  - bearerAuth: []
 components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: Bearer 1234567891223456789
   schemas:
     CarItem:
       type: object
@@ -91,10 +99,12 @@ components:
           type: string
     CarCreate:
       type: object
+      required:
+        - name
+        - model
       properties: 
         name:
           type: string
-          required: true
           maxLength: 100
         model:
           type: string
