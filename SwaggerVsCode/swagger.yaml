@@ -8,6 +8,7 @@ info:
     email: filip@mail.cz
 servers:
   - url: http://localhost:5167
+  - url: http://localhost:5100
   - url: https://fyllsys.cz/api
 paths:
   /api/cars:
@@ -71,11 +72,37 @@ paths:
               schema:
                 $ref: '#/components/schemas/CarItem'
         400:
-          description: BadRequest
+          description: BadRequest          
           content:
             application/json:
+              example:
+                title: "Bad Request"
+                detail: "Popis validacni chyby"
+                status: 400
+                errors:
+                  - name: "Toto pole je povinne"
+                  - year: "Hodnota musi byt vetsi nez 2000"
               schema: 
                 $ref: '#/components/schemas/ProblemDetail'
+  /api/cars/{id}:
+    get:
+      tags:
+        - "cars"
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: integer
+          required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CarItem'
+        '404':
+          description: NotFound
 security:
   - bearerAuth: []
 components:
@@ -126,3 +153,7 @@ components:
           type: string
         status:
           type: integer
+        errors:
+          type: array
+          items:
+            type: object

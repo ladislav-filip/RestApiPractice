@@ -11,6 +11,9 @@ info:
   description: 'Testovaci API pro skoleni  '
 servers:
   - url: 'http://localhost:5167'
+    description: ASP.NET
+  - url: 'http://localhost:5100'
+    description: Mockoon
 paths:
   /api/cars:
     get:
@@ -60,6 +63,19 @@ paths:
               type: object
               properties: {}
     parameters: []
+  '/api/cars/{id}':
+    parameters:
+      - schema:
+          type: integer
+        name: id
+        in: path
+        required: true
+    get:
+      summary: Your GET endpoint
+      tags:
+        - cars
+      responses: {}
+      operationId: get-api-cars-id
 components:
   schemas:
     CarItem:
